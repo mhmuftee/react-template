@@ -21,6 +21,6 @@ jobs:
             - run:
                   command: npm run test
             - run: |
-                  if [ "$CIRCLE_BRANCH" = "firebase" ]; then
+                  if [ "$CIRCLE_BRANCH" = "master" ]; then
                       ./node_modules/.bin/firebase deploy --token "$FIREBASE_TOKEN"
                   fi
