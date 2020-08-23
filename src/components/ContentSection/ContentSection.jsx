@@ -2,13 +2,14 @@ import React from "react";
 import { Paper } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 
-import WelcomePage from "pages/WelcomePage";
+//import WelcomePage from "pages/WelcomePage";
 import DashboardPage from "pages/DashboardPage";
 
 const useStyles = makeStyles(() => ({
     paperStyles: {
         "min-height": "100vh",
         overflow: "hidden",
+        height: "100%",
     },
 }));
 
