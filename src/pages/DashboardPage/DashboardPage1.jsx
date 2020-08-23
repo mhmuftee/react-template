@@ -15,7 +15,7 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import Page1 from "pages/Page1";
 import Page2 from "pages/Page2";
 
-const drawerWidth = 240;
+const drawerWidth = 170;
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -28,11 +28,7 @@ function TabPanel(props) {
       aria-labelledby={`vertical-tab-${index}`}
       {...other}
     >
-      {value === index && (
-        <Box p={1}>
-          {children}
-        </Box>
-      )}
+      {value === index && <Box p={1}>{children}</Box>}
     </div>
   );
 }
@@ -77,7 +73,8 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing(3),
+    padding: theme.spacing(1),
+    backgroundColor: "White",
   },
 }));
 
@@ -148,12 +145,12 @@ export default function DashboardPage1() {
         </div>
       </Drawer>
       <main className={classes.content}>
-        <Toolbar/>
+        <Toolbar />
         <TabPanel value={value} index={0}>
-          <Page1/>
+          <Page1 />
         </TabPanel>
         <TabPanel value={value} index={1}>
-          <Page2/>
+          <Page2 userid="not found"/>
         </TabPanel>
       </main>
     </div>
