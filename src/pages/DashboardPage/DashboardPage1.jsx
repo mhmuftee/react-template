@@ -12,6 +12,9 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 
+import Page1 from "pages/Page1";
+import Page2 from "pages/Page2";
+
 const drawerWidth = 240;
 
 function TabPanel(props) {
@@ -26,8 +29,8 @@ function TabPanel(props) {
       {...other}
     >
       {value === index && (
-        <Box p={3}>
-          <Typography>{children}</Typography>
+        <Box p={1}>
+          {children}
         </Box>
       )}
     </div>
@@ -147,10 +150,10 @@ export default function DashboardPage1() {
       <main className={classes.content}>
         <Toolbar/>
         <TabPanel value={value} index={0}>
-          Item One
+          <Page1/>
         </TabPanel>
         <TabPanel value={value} index={1}>
-          Item Two
+          <Page2/>
         </TabPanel>
       </main>
     </div>
