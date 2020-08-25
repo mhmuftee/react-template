@@ -6,6 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import Page2Card1 from "components/Page2Card1";
 import Page2Card2 from "components/Page2Card2";
 import Page2Card3 from "components/Page2Card3";
+import Page1Table from "components/Page1Table";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,10 +42,10 @@ export default function Page2(props) {
           <Page2Card2/>
         </Grid>
         <Grid item xs={4}>
-          <Page2Card3/>
+          <Page2Card3 goBack={props.changetab}/>
         </Grid>
         <Grid item xs={12}>
-          <Paper className={classes.paper}>xs=12</Paper>
+          <Page1Table/>
         </Grid>
       </Grid>
     </div>

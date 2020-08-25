@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import PropTypes from "prop-types";
 import Drawer from "@material-ui/core/Drawer";
 import Box from "@material-ui/core/Box";
@@ -78,7 +78,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function DashboardPage1() {
+export default function DashboardPage1(props) {
   const classes = useStyles();
 
   const [open, setOpen] = React.useState(false);
@@ -92,6 +92,10 @@ export default function DashboardPage1() {
     setOpen(true);
   };
 
+  const toggleTab1 = () => {
+    setValue(0);
+  }
+
   const handleDrawerClose = () => {
     setOpen(false);
   };
@@ -100,6 +104,11 @@ export default function DashboardPage1() {
     if (open) handleDrawerClose();
     else handleDrawerOpen();
   };
+
+  useEffect(() => {
+      handleDrawerOpen();
+      return () => handleDrawerClose();
+  }, []);
 
   return (
     <div className={classes.root}>
@@ -150,7 +159,7 @@ export default function DashboardPage1() {
           <Page1 />
         </TabPanel>
         <TabPanel value={value} index={1}>
-          <Page2 userid="not found"/>
+          <Page2 changetab={toggleTab1} userid="not found"/>
         </TabPanel>
       </main>
     </div>

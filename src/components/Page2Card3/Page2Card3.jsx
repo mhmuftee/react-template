@@ -9,8 +9,8 @@ function DataCard(props) {
     return (
         <Card elevation={10}>
             <CardContent>
-                <Typography variant="h6">Go back to table</Typography>
-                <IconButton>Click</IconButton>
+                <Typography variant="h6">Go back to Page 1 table</Typography>
+                <IconButton onClick={props.goBack}>Click</IconButton>
                
             </CardContent>
         </Card>
