@@ -3,10 +3,13 @@ import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
+import IconButton from "@material-ui/core/IconButton";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
+import DetailsTwoToneIcon from '@material-ui/icons/DetailsTwoTone';
+
 
 import userData from "../../res/users.json";
 
@@ -53,6 +56,7 @@ export default function DenseTable() {
             <TableCell align="left">User&nbsp;name</TableCell>
             <TableCell align="left">Email</TableCell>
             <TableCell align="left">Website</TableCell>
+            <TableCell align="left">Button</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -65,6 +69,7 @@ export default function DenseTable() {
               <TableCell align="left">{row.username}</TableCell>
               <TableCell align="left">{row.email}</TableCell>
               <TableCell align="left">{row.website}</TableCell>
+              <TableCell align="left"><IconButton><DetailsTwoToneIcon/></IconButton></TableCell>
             </TableRow>
           ))}
         </TableBody>
