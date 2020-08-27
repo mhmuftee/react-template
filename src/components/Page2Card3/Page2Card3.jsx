@@ -10,7 +10,7 @@ function DataCard(props) {
         <Card elevation={10}>
             <CardContent>
                 <Typography variant="h6">Go back to Page 1 table</Typography>
-                <IconButton onClick={props.goBack}>Click</IconButton>
+                <IconButton onClick={() => props.changetab(0)}>Click</IconButton>
                
             </CardContent>
         </Card>

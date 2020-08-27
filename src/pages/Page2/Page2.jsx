@@ -42,7 +42,7 @@ export default function Page2(props) {
           <Page2Card2/>
         </Grid>
         <Grid item xs={4}>
-          <Page2Card3 goBack={props.changetab}/>
+          <Page2Card3 changetab={props.changetab}/>
         </Grid>
         <Grid item xs={12}>
           <Page2DemoTable/>

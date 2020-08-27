@@ -83,6 +83,7 @@ export default function DashboardPage1(props) {
 
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState(0);
+  const [userid, setUserid] = React.useState('Not found');
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -91,9 +92,10 @@ export default function DashboardPage1(props) {
   const handleDrawerOpen = () => {
     setOpen(true);
   };
-
-  const toggleTab1 = () => {
-    setValue(0);
+  
+  const changetab = (tabIndex, userid='Not found') => {
+    setValue(tabIndex);
+    setUserid(userid);
   }
 
   const handleDrawerClose = () => {
@@ -156,10 +158,10 @@ export default function DashboardPage1(props) {
       <main className={classes.content}>
         <Toolbar />
         <TabPanel value={value} index={0}>
-          <Page1 />
+          <Page1 changetab={changetab}/>
         </TabPanel>
         <TabPanel value={value} index={1}>
-          <Page2 changetab={toggleTab1} userid="not found"/>
+          <Page2 changetab={changetab} userid={userid}/>
         </TabPanel>
       </main>
     </div>

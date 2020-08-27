@@ -54,6 +54,9 @@ const useStyles = makeStyles((theme) => ({
   inputRoot: {
     color: "inherit",
   },
+  searchresult: {
+    color: "yellow",
+  },
   inputInput: {
     padding: theme.spacing(1, 1, 1, 0),
     // vertical padding + font size from searchIcon
@@ -70,9 +73,32 @@ function createData(id, name, username, website, email) {
   return { id, name, username, website, email };
 }
 
-export default function DenseTable() {
+/*
+function PrintValue(props) {
+  let { searchterm, value } = props;
+
+  const classes = useStyles();
+
+  const res = value.split(".");
+
+  console.log(searchterm);
+
+  return (
+    <div>
+      {res[0]}
+      <div className={classes.searchresult}>{res[1]}</div>
+    </div>
+  );
+} */
+
+export default function Page1Table(props) {
   const classes = useStyles();
   const [rows, setrows] = React.useState([]);
+  const [filter, setFilter] = React.useState("");
+
+  const handleSearch = (e) => {
+    setFilter(e.target.value);
+  };
 
   useEffect(() => {
     let rows = [];
@@ -95,6 +121,7 @@ export default function DenseTable() {
               </div>
               <InputBase
                 placeholder="Search…"
+                onChange={handleSearch}
                 classes={{
                   root: classes.inputRoot,
                   input: classes.inputInput,
@@ -113,7 +140,7 @@ export default function DenseTable() {
               aria-label="Page 1 table"
             >
               <TableHead>
-                <TableRow>
+                <TableRow hover={true}>
                   <TableCell align="right">id</TableCell>
                   <TableCell align="left">Name</TableCell>
                   <TableCell align="left">User&nbsp;name</TableCell>
@@ -123,22 +150,29 @@ export default function DenseTable() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.map((row) => (
-                  <TableRow key={row.id}>
-                    <TableCell align="right" component="th" scope="row">
-                      {row.id}
-                    </TableCell>
-                    <TableCell align="left">{row.name}</TableCell>
-                    <TableCell align="left">{row.username}</TableCell>
-                    <TableCell align="left">{row.email}</TableCell>
-                    <TableCell align="left">{row.website}</TableCell>
-                    <TableCell align="left">
-                      <IconButton>
-                        <DetailsTwoToneIcon />
-                      </IconButton>
-                    </TableCell>
-                  </TableRow>
-                ))}
+                {rows.map(
+                  (row) =>
+                    (row.id.toString().includes(filter) ||
+                      row.name.includes(filter) ||
+                      row.username.includes(filter) ||
+                      row.email.includes(filter) ||
+                      row.website.includes(filter)) && (
+                      <TableRow key={row.id}>
+                        <TableCell align="right" component="th" scope="row">
+                          {row.id}
+                        </TableCell>
+                        <TableCell align="left">{row.name}</TableCell>
+                        <TableCell align="left">{row.username}</TableCell>
+                        <TableCell align="left">{row.email}</TableCell>
+                        <TableCell align="left">{row.website}</TableCell>
+                        <TableCell align="left">
+                          <IconButton onClick={() => props.changetab(1, row.name)}>
+                            <DetailsTwoToneIcon />
+                          </IconButton>
+                        </TableCell>
+                      </TableRow>
+                    )
+                )}
               </TableBody>
             </Table>
           </TableContainer>
