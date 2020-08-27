@@ -1,107 +1,169 @@
-import React from "react";
-import AppBar from "@material-ui/core/AppBar";
+import React, {useEffect} from "react";
+import PropTypes from "prop-types";
 import Drawer from "@material-ui/core/Drawer";
+import Box from "@material-ui/core/Box";
+import AppBar from "@material-ui/core/AppBar";
+import { Tab, Tabs } from "@material-ui/core";
 import Toolbar from "@material-ui/core/Toolbar";
-import List from "@material-ui/core/List";
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/styles";
+import IconButton from "@material-ui/core/IconButton";
+import { makeStyles } from "@material-ui/core/styles";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+
+import Page1 from "pages/Page1";
+import Page2 from "pages/Page2";
+
+const drawerWidth = 170;
+
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`vertical-tabpanel-${index}`}
+      aria-labelledby={`vertical-tab-${index}`}
+      {...other}
+    >
+      {value === index && <Box p={1}>{children}</Box>}
+    </div>
+  );
+}
+
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.any.isRequired,
+  value: PropTypes.any.isRequired,
+};
+
+function a11yProps(index) {
+  return {
+    id: `vertical-tab-${index}`,
+    "aria-controls": `vertical-tabpanel-${index}`,
+  };
+}
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: "100vw",
-    "min-height": "100vh",
-    "flex-direction": "column",
     display: "flex",
   },
-  sidebar: {
-    width: "20vw",
-    "min-height": "100vh",
-    backgroundColor: "white",
-  },
-  hidebutton: {
-    right: "0",
+  appBar: {
+    zIndex: theme.zIndex.drawer + 1,
+    backgroundColor: "#BEBAA7",
   },
   drawer: {
-    position : "relative",
-    width: "20%"
+    width: drawerWidth,
+    height: "100vh",
+    backgroundColor: "#BEBAA7",
+    flexShrink: 0,
+    borderRight: `1px solid ${theme.palette.divider}`,
   },
-  header: {
-    width: "80vw",
-    "min-height": "100vh",
-    height: "100%",
-    backgroundColor: "red",
+  drawerPaper: {
+    width: drawerWidth,
+    backgroundColor: "#BEBAA7",
+  },
+  hidebutton: {
+    width: drawerWidth - 20,
+  },
+  drawerContainer: {
+    overflow: "auto",
+  },
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing(1),
+    backgroundColor: "White",
   },
 }));
 
-function DashboardPage() {
+export default function DashboardPage1(props) {
   const classes = useStyles();
 
   const [open, setOpen] = React.useState(false);
+  const [value, setValue] = React.useState(0);
+  const [userid, setUserid] = React.useState('Not found');
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
 
   const handleDrawerOpen = () => {
     setOpen(true);
   };
+  
+  const changetab = (tabIndex, userid='Not found') => {
+    setValue(tabIndex);
+    setUserid(userid);
+  }
 
   const handleDrawerClose = () => {
     setOpen(false);
   };
 
   const toggleDrawer = () => {
-      if(open)
-        handleDrawerClose();
-      else
-        handleDrawerOpen();
-  }
+    if (open) handleDrawerClose();
+    else handleDrawerOpen();
+  };
+
+  useEffect(() => {
+      handleDrawerOpen();
+      return () => handleDrawerClose();
+  }, []);
 
   return (
     <div className={classes.root}>
-      <div className={classes.sidebar}>
-        <AppBar position="relative">
-          <Toolbar>
-            <IconButton className={classes.hidebutton} onClick={toggleDrawer}>
+      <CssBaseline />
+      <AppBar position="fixed" className={classes.appBar}>
+        <Toolbar>
+          <IconButton className={classes.hidebutton} onClick={toggleDrawer}>
             {open ? (
-                <Typography>Hide menu</Typography>
-              ) : (
-                <Typography>Show menu</Typography>
-              )}
-              
-              {open ? (
-                <ExpandMoreIcon />
-              ) : (
-                <ChevronLeftIcon />
-              )}
-            </IconButton>
-          </Toolbar>
-        </AppBar>
-        <Drawer
-          className={classes.drawer}
-          variant="persistent"
-          anchor="bottom"
-          open={open}
-        >
-          <List>
-            {["Page 1", "Page 2"].map((text, index) => (
-              <ListItem button key={text}>
-                <ListItemText primary={text} />
-              </ListItem>
-            ))}
-          </List>
-        </Drawer>
-      </div>
-      <div className={classes.header}>
-          <AppBar position="relative">
-              <Toolbar>
+              <Typography>Hide menu</Typography>
+            ) : (
+              <Typography>Show menu</Typography>
+            )}
 
-              </Toolbar>
-          </AppBar>
-      </div>
+            {open ? <ExpandMoreIcon /> : <ChevronLeftIcon />}
+          </IconButton>
+          <Typography variant="h6" noWrap>
+            Dashboard
+          </Typography>
+        </Toolbar>
+      </AppBar>
+      <Drawer
+        className={classes.drawer}
+        variant="persistent"
+        anchor="top"
+        open={open}
+        classes={{
+          paper: classes.drawerPaper,
+        }}
+      >
+        <Toolbar />
+        <div className={classes.drawerContainer}>
+          <Tabs
+            orientation="vertical"
+            variant="scrollable"
+            value={value}
+            onChange={handleChange}
+            aria-label="Vertical tabs"
+            className={classes.tabs}
+          >
+            <Tab label="Page 1" {...a11yProps(0)} />
+            <Tab label="Page 2" {...a11yProps(1)} />
+          </Tabs>
+        </div>
+      </Drawer>
+      <main className={classes.content}>
+        <Toolbar />
+        <TabPanel value={value} index={0}>
+          <Page1 changetab={changetab}/>
+        </TabPanel>
+        <TabPanel value={value} index={1}>
+          <Page2 changetab={changetab} userid={userid}/>
+        </TabPanel>
+      </main>
     </div>
   );
 }
-
-export default DashboardPage;
