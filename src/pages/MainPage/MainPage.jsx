@@ -26,7 +26,7 @@ function a11yProps(index) {
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
-    height: "100vh"
+    height: "100vh",
   },
   drawer: {
     width: drawerWidth,
@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
   content: {
     flexGrow: 1,
     padding: theme.spacing(1),
-    backgroundColor: 'white'
+    backgroundColor: "white",
   },
 }));
 
@@ -52,7 +52,7 @@ export default function MainPage(props) {
 
   const [open, setOpen] = React.useState(true);
   const [tabindex, setTabIndex] = React.useState(0);
-  const [username, setUsername] = React.useState('Not found');
+  const [username, setUsername] = React.useState("Not found");
 
   const clickTab = (event, index) => {
     setTabIndex(index);
@@ -62,10 +62,10 @@ export default function MainPage(props) {
     setOpen(!open);
   };
 
-  const changeTab = (tabIndex, username='Not found') => {
+  const changeTab = (tabIndex, username = "Not found") => {
     setTabIndex(tabIndex);
     setUsername(username);
-  }
+  };
 
   return (
     <div className={classes.root}>
@@ -101,11 +101,12 @@ export default function MainPage(props) {
         </div>
       </Drawer>
       <main className={classes.content}>
+        <div className={classes.toolbar} />
         <TabPanel value={tabindex} index={0}>
-          <Page1 changetab={changeTab}/>
+          <Page1 changetab={changeTab} />
         </TabPanel>
         <TabPanel value={tabindex} index={1}>
-          <Page2 changetab={changeTab} username={username}/>
+          <Page2 changetab={changeTab} username={username} />
         </TabPanel>
       </main>
     </div>
