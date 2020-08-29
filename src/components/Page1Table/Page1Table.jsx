@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { fade, makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
+import axios from "axios";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import IconButton from "@material-ui/core/IconButton";
@@ -95,20 +96,33 @@ export default function Page1Table(props) {
   const classes = useStyles();
   const [rows, setrows] = React.useState([]);
   const [filter, setFilter] = React.useState("");
+  const [userdata, setUserdata] = React.useState([]);
 
   const handleSearch = (e) => {
     setFilter(e.target.value);
   };
 
   useEffect(() => {
+
+    const getTableDataFromAPI = async () => {
+       const json = await axios.get("http://jsonplaceholder.typicode.com/users");
+       setUserdata(json);
+    }
+
+    getTableDataFromAPI();
+
+  },[userdata]);
+
+  useEffect(() => {
     let rows = [];
+    
     userData.forEach((data) => {
-      rows.push(
-        createData(data.id, data.name, data.username, data.website, data.email)
+        rows.push(
+         createData(data.id, data.name, data.username, data.website, data.email)
       );
     });
     setrows(rows);
-  }, []);
+  }, [userdata]);
 
   return (
     <div className={classes.root}>

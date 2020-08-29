@@ -32,7 +32,7 @@ export default function Page2(props) {
       <Grid container spacing={1}>
         <Grid item xs={12}>
           <Paper className={classes.user}>
-            UserID: {props.userid}
+            UserID: {props.username}
             </Paper>
         </Grid>
         <Grid item xs={4}>
