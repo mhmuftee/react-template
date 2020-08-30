@@ -107,7 +107,7 @@ export default function Page1Table(props) {
     let isSubscribed = true
 
     async function getTableDataFromAPI() {
-       const data= await axios.get("http://jsonplaceholder.typicode.com/users");
+       const data= await axios.get("https://jsonplaceholder.typicode.com/users");
        if (isSubscribed)
           setUserdata(data)
     }
