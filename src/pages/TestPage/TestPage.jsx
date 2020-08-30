@@ -19,7 +19,7 @@ import Search from "@material-ui/icons/Search";
 import ViewColumn from "@material-ui/icons/ViewColumn";
 import axios from "axios";
 
-const API = "http://dev.api.droov.io/play/users";
+const API = "https://dev.api.droov.io/play/users";
 const token =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQSflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
 
@@ -63,9 +63,7 @@ const useStyles = makeStyles((theme) => ({
 export default function TestPage(props) {
   const classes = useStyles();
 
-  const [tableData, setTableData] = useState([]);
-
-  const [state, setState] = React.useState({
+  const [state, setState] = useState({
     columns: [
       { title: "id", field: "id" },
       { title: "name", field: "name" },
@@ -90,7 +88,9 @@ export default function TestPage(props) {
       const response = await axios.get(API, {
         headers: { Authorization: "Bearer " + token },
       });
-      if (isSubscribed) setTableData(response.data);
+      const newData = response.data;
+      if (isSubscribed)
+        setState(prevState => ({ ...prevState, data: newData }));
     }
 
     fetchTableData();
@@ -107,7 +107,7 @@ export default function TestPage(props) {
           title="Editable Table"
           icons={tableIcons}
           columns={state.columns}
-          data={tableData}
+          data={state.data}
           editable={{
             onRowAdd: (newData) =>
               new Promise((resolve) => {
