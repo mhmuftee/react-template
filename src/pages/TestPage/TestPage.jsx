@@ -86,7 +86,10 @@ export default function TestPage(props) {
     let isSubscribed = true;
     async function fetchTableData() {
       const response = await axios.get(API, {
-        headers: { Authorization: "Bearer " + token },
+        headers: { 
+          'Access-Control-Allow-Origin' : '*',
+          Authorization: "Bearer " + token
+        },
       });
       const newData = response.data;
       if (isSubscribed)
