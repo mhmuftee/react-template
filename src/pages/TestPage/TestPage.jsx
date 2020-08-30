@@ -1,8 +1,7 @@
-import React, { forwardRef }  from "react";
+import React, { forwardRef, useEffect, useState }  from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import MaterialTable from 'material-table';
-
 import AddBox from '@material-ui/icons/AddBox';
 import ArrowDownward from '@material-ui/icons/ArrowDownward';
 import Check from '@material-ui/icons/Check';
@@ -18,6 +17,10 @@ import Remove from '@material-ui/icons/Remove';
 import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
+import axios from 'axios';
+
+const API = "http://dev.api.droov.io/play/users";
+const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQSflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
 
 const tableIcons = {
     Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -55,16 +58,15 @@ const useStyles = makeStyles((theme) => ({
 export default function TestPage(props) {
   const classes = useStyles();
 
+  const [tableData, setTableData] = useState([]);
+
   const [state, setState] = React.useState({
     columns: [
-      { title: 'Name', field: 'name' },
-      { title: 'Surname', field: 'surname' },
-      { title: 'Birth Year', field: 'birthYear', type: 'numeric' },
-      {
-        title: 'Birth Place',
-        field: 'birthCity',
-        lookup: { 34: 'İstanbul', 63: 'Şanlıurfa' },
-      },
+      { title: 'id', field: 'id' },
+      { title: 'name', field: 'name' },
+      { title: 'username', field: 'username' },
+      { title: 'email', field: 'email' },
+      { title: 'website', field: 'website' },
     ],
     data: [
       { name: 'Mehmet', surname: 'Baran', birthYear: 1987, birthCity: 63 },
@@ -77,6 +79,24 @@ export default function TestPage(props) {
     ],
   });
 
+  useEffect(() => {
+    
+    let isSubscribed = true;
+
+    async function fetchTableData() {
+      const response = await axios.get(API, { headers: {"Authorization": "Bearer " + token} });
+      if(isSubscribed)
+      setTableData(response.data);
+      console.log(tableData);
+    }
+
+    fetchTableData();
+    
+
+    return () => isSubscribed = false;
+
+  }, [tableData]);
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -86,7 +106,7 @@ export default function TestPage(props) {
       title="Editable Table"
       icons={tableIcons}
       columns={state.columns}
-      data={state.data}
+      data={tableData}
       editable={{
         onRowAdd: (newData) =>
           new Promise((resolve) => {
