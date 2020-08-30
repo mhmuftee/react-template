@@ -84,6 +84,7 @@ export default function TestPage(props) {
 
   useEffect(() => {
     let isSubscribed = true;
+    //console.log("useEffect called");
     async function fetchTableData() {
       const response = await axios.get(API, {
         headers: { 
