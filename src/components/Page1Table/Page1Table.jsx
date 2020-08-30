@@ -100,7 +100,6 @@ export default function Page1Table(props) {
   };
 
   useEffect(() => {
-    console.log("in effect");
 
     let isSubscribed = true;
 
@@ -129,8 +128,6 @@ export default function Page1Table(props) {
 
     return () => (isSubscribed = false);
   }, []);
-
-  console.log(rows);
 
   return (
     <div className={classes.root}>

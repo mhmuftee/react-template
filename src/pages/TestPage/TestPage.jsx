@@ -86,7 +86,6 @@ export default function TestPage(props) {
 
   useEffect(() => {
     let isSubscribed = true;
-
     async function fetchTableData() {
       const response = await axios.get(API, {
         headers: { Authorization: "Bearer " + token },
@@ -98,8 +97,6 @@ export default function TestPage(props) {
 
     return () => (isSubscribed = false);
   }, []);
-
-  console.log(tableData);
 
   return (
     <div className={classes.root}>
