@@ -15,8 +15,6 @@ import InputBase from "@material-ui/core/InputBase";
 import Grid from "@material-ui/core/Grid";
 import DetailsTwoToneIcon from "@material-ui/icons/DetailsTwoTone";
 
-import userData from "../../res/users.json";
-
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -96,37 +94,43 @@ export default function Page1Table(props) {
   const classes = useStyles();
   const [rows, setrows] = React.useState([]);
   const [filter, setFilter] = React.useState("");
-  const [userdata, setUserdata] = React.useState([]);
 
   const handleSearch = (e) => {
     setFilter(e.target.value);
   };
 
   useEffect(() => {
+    console.log("in effect");
 
-    let isSubscribed = true
+    let isSubscribed = true;
 
     async function getTableDataFromAPI() {
-       const data= await axios.get("https://jsonplaceholder.typicode.com/users");
-       if (isSubscribed)
-          setUserdata(data)
+      const response = await axios.get(
+        "https://jsonplaceholder.typicode.com/users"
+      );
+      if (isSubscribed) {
+        let rows = [];
+        response.data.forEach((data) => {
+          rows.push(
+            createData(
+              data.id,
+              data.name,
+              data.username,
+              data.website,
+              data.email
+            )
+          );
+        });
+        setrows(rows);
+      }
     }
 
     getTableDataFromAPI();
 
-    return () => isSubscribed = false;
-  },[userdata]);
+    return () => (isSubscribed = false);
+  }, []);
 
-  useEffect(() => {
-    let rows = [];
-    
-    userData.forEach((data) => {
-        rows.push(
-         createData(data.id, data.name, data.username, data.website, data.email)
-      );
-    });
-    setrows(rows);
-  }, [userdata]);
+  console.log(rows);
 
   return (
     <div className={classes.root}>
@@ -184,7 +188,9 @@ export default function Page1Table(props) {
                         <TableCell align="left">{row.email}</TableCell>
                         <TableCell align="left">{row.website}</TableCell>
                         <TableCell align="left">
-                          <IconButton onClick={() => props.changetab(1, row.name)}>
+                          <IconButton
+                            onClick={() => props.changetab(1, row.name)}
+                          >
                             <DetailsTwoToneIcon />
                           </IconButton>
                         </TableCell>
