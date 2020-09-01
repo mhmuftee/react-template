@@ -5,7 +5,9 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { Route, Switch, Redirect } from "react-router-dom";
+import { Provider } from "react-redux";
 
+import store from "../../store/store";
 import MainPage from "pages/MainPage";
 import TestPage from "pages/TestPage";
 import MainDrawer from "components/MainDrawer";
@@ -34,29 +36,31 @@ export default function App(props) {
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
-      <CssBaseline />
-      <AppBar position="fixed" className={classes.appBar}>
-        <Toolbar>
-          <Typography variant="h6" noWrap>
-            Dashboard
-          </Typography>
-        </Toolbar>
-      </AppBar>
-      <MainDrawer />
-      <Switch>
-        <Redirect exact from="/" to="/mainpage" />
-        <Route
-          exact
-          path="/mainpage"
-          render={(props) => <MainPage {...props} />}
-        />
-        <Route
-          exact
-          path="/testpage"
-          render={(props) => <TestPage {...props} />}
-        />
-      </Switch>
-    </div>
+    <Provider store={store}>
+      <div className={classes.root}>
+        <CssBaseline />
+        <AppBar position="fixed" className={classes.appBar}>
+          <Toolbar>
+            <Typography variant="h6" noWrap>
+              Dashboard
+            </Typography>
+          </Toolbar>
+        </AppBar>
+        <MainDrawer />
+        <Switch>
+          <Redirect exact from="/" to="/mainpage" />
+          <Route
+            exact
+            path="/mainpage"
+            render={(props) => <MainPage {...props} />}
+          />
+          <Route
+            exact
+            path="/testpage"
+            render={(props) => <TestPage {...props} />}
+          />
+        </Switch>
+      </div>
+    </Provider>
   );
 }

@@ -12,6 +12,9 @@ import Paper from "@material-ui/core/Paper";
 import SearchIcon from "@material-ui/icons/Search";
 import InputBase from "@material-ui/core/InputBase";
 
+//import { connect } from "react-redux";
+//import { fetchPosts } from "../../actions/postAction";
+
 import Grid from "@material-ui/core/Grid";
 import DetailsTwoToneIcon from "@material-ui/icons/DetailsTwoTone";
 
@@ -68,10 +71,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function createData(id, name, username, website, email) {
-  return { id, name, username, website, email };
-}
-
 /*
 function PrintValue(props) {
   let { searchterm, value } = props;
@@ -90,7 +89,7 @@ function PrintValue(props) {
   );
 } */
 
-export default function Page1Table(props) {
+function Page1Table(props) {
   const classes = useStyles();
   const [rows, setrows] = React.useState([]);
   const [filter, setFilter] = React.useState("");
@@ -100,28 +99,15 @@ export default function Page1Table(props) {
   };
 
   useEffect(() => {
-
     let isSubscribed = true;
 
     async function getTableDataFromAPI() {
-      const response = await axios.get(
-        "https://jsonplaceholder.typicode.com/users"
-      );
-      if (isSubscribed) {
-        let rows = [];
-        response.data.forEach((data) => {
-          rows.push(
-            createData(
-              data.id,
-              data.name,
-              data.username,
-              data.website,
-              data.email
-            )
-          );
+      axios
+        .get("https://jsonplaceholder.typicode.com/users")
+        .then((response) => response.data)
+        .then((data) => {
+          if (isSubscribed) setrows(data);
         });
-        setrows(rows);
-      }
     }
 
     getTableDataFromAPI();
@@ -202,3 +188,5 @@ export default function Page1Table(props) {
     </div>
   );
 }
+
+export default Page1Table;
