@@ -1,3 +1,3 @@
 export const FETCH_POSTS = "FETCH_POSTS";
-export const NEW_POST = "NEW_POST";
-export const DROOV_DATA = "DROOV_DATA";
+export const PUT_DROOV_DATA = "PUT_DROOV_DATA";
+export const FETCH_DROOV_DATA = "FETCH_DROOV_DATA";

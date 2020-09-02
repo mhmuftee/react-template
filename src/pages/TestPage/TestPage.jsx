@@ -19,7 +19,7 @@ import Search from "@material-ui/icons/Search";
 import ViewColumn from "@material-ui/icons/ViewColumn";
 
 import { connect } from "react-redux";
-import { fetchDroovData } from "../../actions/postAction";
+import { fetchDroovData, putDroovData } from "../../actions/postAction";
 
 const tableIcons = {
   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -103,11 +103,12 @@ function TestPage(props) {
               new Promise((resolve) => {
                 setTimeout(() => {
                   resolve();
-                  setState((prevState) => {
-                    const data = [...prevState.data];
-                    data.push(newData);
-                    return { ...prevState, data };
-                  });
+                  // setState((prevState) => {
+                  //   const data = [...prevState.data];
+                  //   data.push(newData);
+                  //   return { ...prevState, data };
+                  // });
+                  props.putDroovData(newData);
                 }, 600);
               }),
             onRowUpdate: (newData, oldData) =>
@@ -145,4 +146,4 @@ const mapStateToProps = state => ({
     data: state.posts.droovItems
 });
 
-export default connect(mapStateToProps, {fetchDroovData})(TestPage)
+export default connect(mapStateToProps, {fetchDroovData,putDroovData})(TestPage)

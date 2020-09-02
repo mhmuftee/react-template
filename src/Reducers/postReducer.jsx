@@ -1,4 +1,4 @@
-import {FETCH_POSTS, DROOV_DATA} from "../actions/types";
+import {FETCH_POSTS, FETCH_DROOV_DATA, PUT_DROOV_DATA} from "../actions/types";
 
 const initialState = {
     items: [],
@@ -12,10 +12,15 @@ export default function (state = initialState, action){
                 ...state,
                 items: action.payload
             }
-        } else if (action.type === DROOV_DATA) {
+        } else if (action.type === FETCH_DROOV_DATA) {
             return {
                 ...state,
                 droovItems: action.payload
             }
-         } else  return state;
+        } else if (action.type === PUT_DROOV_DATA){
+            return {
+                ...state,
+                droovItems: action.payload
+            }
+        } else  return state;
 }
