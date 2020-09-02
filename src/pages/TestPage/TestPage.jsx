@@ -19,7 +19,11 @@ import Search from "@material-ui/icons/Search";
 import ViewColumn from "@material-ui/icons/ViewColumn";
 
 import { connect } from "react-redux";
-import { fetchDroovData, putDroovData, deleteDroovData } from "../../actions/postAction";
+import {
+  fetchDroovData,
+  putDroovData,
+  deleteDroovData,
+} from "../../actions/postAction";
 
 const tableIcons = {
   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -63,29 +67,19 @@ function TestPage(props) {
 
   const [state, setState] = useState({
     columns: [
-      { title: "id", field: "id" },
+      { title: "id", field: "id", editable: "never" },
       { title: "name", field: "name" },
       { title: "username", field: "username" },
       { title: "email", field: "email" },
       { title: "website", field: "website" },
     ],
-    data: [
-      { name: "Mehmet", surname: "Baran", birthYear: 1987, birthCity: 63 },
-      {
-        name: "Zerya Betül",
-        surname: "Baran",
-        birthYear: 2017,
-        birthCity: 34,
-      },
-    ],
+    data: [],
   });
 
   const fetch = props.fetchDroovData;
-  const datas = props.data;
 
   useEffect(() => {
     fetch();
-    //setState(prevState => ({...prevState, data: datas}))
   }, [fetch]);
 
   return (
@@ -97,17 +91,12 @@ function TestPage(props) {
           title="Editable Table"
           icons={tableIcons}
           columns={state.columns}
-          data={datas}
+          data={props.data}
           editable={{
             onRowAdd: (newData) =>
               new Promise((resolve) => {
                 setTimeout(() => {
                   resolve();
-                  // setState((prevState) => {
-                  //   const data = [...prevState.data];
-                  //   data.push(newData);
-                  //   return { ...prevState, data };
-                  // });
                   props.putDroovData(newData);
                 }, 600);
               }),
@@ -128,11 +117,6 @@ function TestPage(props) {
               new Promise((resolve) => {
                 setTimeout(() => {
                   resolve();
-                  // setState((prevState) => {
-                  //   const data = [...prevState.data];
-                  //   data.splice(data.indexOf(oldData), 1);
-                  //   return { ...prevState, data };
-                  // });
                   props.deleteDroovData(oldData.id);
                 }, 600);
               }),
@@ -143,8 +127,12 @@ function TestPage(props) {
   );
 }
 
-const mapStateToProps = state => ({
-    data: state.posts.droovItems
+const mapStateToProps = (state) => ({
+  data: state.posts.droovItems,
 });
 
-export default connect(mapStateToProps, {fetchDroovData,putDroovData, deleteDroovData})(TestPage)
+export default connect(mapStateToProps, {
+  fetchDroovData,
+  putDroovData,
+  deleteDroovData,
+})(TestPage);
