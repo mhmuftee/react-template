@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { fade, makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
-import axios from "axios";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import IconButton from "@material-ui/core/IconButton";
@@ -12,8 +11,8 @@ import Paper from "@material-ui/core/Paper";
 import SearchIcon from "@material-ui/icons/Search";
 import InputBase from "@material-ui/core/InputBase";
 
-//import { connect } from "react-redux";
-//import { fetchPosts } from "../../actions/postAction";
+import { connect } from "react-redux";
+import { fetchPosts } from "../../actions/postAction";
 
 import Grid from "@material-ui/core/Grid";
 import DetailsTwoToneIcon from "@material-ui/icons/DetailsTwoTone";
@@ -91,29 +90,18 @@ function PrintValue(props) {
 
 function Page1Table(props) {
   const classes = useStyles();
-  const [rows, setrows] = React.useState([]);
   const [filter, setFilter] = React.useState("");
 
   const handleSearch = (e) => {
     setFilter(e.target.value);
   };
 
+  const rows = props.rows;
+  const fetch = props.fetchPosts;
+
   useEffect(() => {
-    let isSubscribed = true;
-
-    async function getTableDataFromAPI() {
-      axios
-        .get("https://jsonplaceholder.typicode.com/users")
-        .then((response) => response.data)
-        .then((data) => {
-          if (isSubscribed) setrows(data);
-        });
-    }
-
-    getTableDataFromAPI();
-
-    return () => (isSubscribed = false);
-  }, []);
+    fetch();
+  }, [fetch]);
 
   return (
     <div className={classes.root}>
@@ -189,4 +177,8 @@ function Page1Table(props) {
   );
 }
 
-export default Page1Table;
+const mapStateToProps = state => ({
+  rows: state.posts.items,
+});
+
+export default connect(mapStateToProps, { fetchPosts })(Page1Table);
