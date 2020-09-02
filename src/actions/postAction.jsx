@@ -7,7 +7,7 @@ const token =
 export const fetchPosts = () => (dispatch) => {
   axios
     .get("https://jsonplaceholder.typicode.com/users")
-    .then(res => res.data)
+    .then((res) => res.data)
     .then((data) => {
       dispatch({
         type: FETCH_POSTS,
@@ -20,10 +20,10 @@ export const fetchDroovData = () => (dispatch) => {
   axios
     .get("https://dev.api.droov.io/play/users", {
       headers: {
-        Authorization: "Bearer " + token
+        Authorization: "Bearer " + token,
       },
     })
-    .then(res => res.data)
+    .then((res) => res.data)
     .then((data) => {
       dispatch({
         type: FETCH_DROOV_DATA,
@@ -32,17 +32,32 @@ export const fetchDroovData = () => (dispatch) => {
     });
 };
 
-
 export const putDroovData = (data) => (dispatch) => {
+  const body = JSON.stringify(data);
   axios
-    .post("https://dev.api.droov.io/play/users/add", {
-      headers: { 
+    .post("https://dev.api.droov.io/play/users/add", body, {
+      headers: {
         Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(data)
     })
-    .then(res => res.data)
+    .then((res) => res.data)
+    .then((data) => {
+      dispatch({
+        type: PUT_DROOV_DATA,
+        payload: data,
+      });
+    });
+};
+
+export const deleteDroovData = (userid) => (dispatch) => {
+  axios
+    .delete("https://dev.api.droov.io/play/users/"+userid, {
+      headers: {
+        Authorization: "Bearer "+ token
+      },
+    })
+    .then((res) => res.data)
     .then((data) => {
       dispatch({
         type: PUT_DROOV_DATA,

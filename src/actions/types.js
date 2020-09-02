@@ -1,3 +1,4 @@
 export const FETCH_POSTS = "FETCH_POSTS";
 export const PUT_DROOV_DATA = "PUT_DROOV_DATA";
 export const FETCH_DROOV_DATA = "FETCH_DROOV_DATA";
+export const DEL_DROOV_DATA = "DEL_DROOV_DATA";
