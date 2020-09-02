@@ -12,7 +12,7 @@
     "@testing-library/user-event": "^7.2.1",
     "axios": "^0.20.0",
     "classnames": "^2.2.6",
-    "material-table": "^1.67.1",
+    "material-table": "^1.65.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.1",
