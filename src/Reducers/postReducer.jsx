@@ -1,19 +1,21 @@
-import {FETCH_POSTS, NEW_POST} from "../actions/types";
+import {FETCH_POSTS, DROOV_DATA} from "../actions/types";
 
 const initialState = {
     items: [],
-    item: {}
+    item: {},
+    droovItems: []
 }
 
 export default function (state = initialState, action){
-    switch (action.type) {
-        case FETCH_POSTS: {
+        if (action.type ===FETCH_POSTS) {
             return {
                 ...state,
                 items: action.payload
             }
-        }
-        case NEW_POST: return state
-        default: return state;
-    }
+        } else if (action.type === DROOV_DATA) {
+            return {
+                ...state,
+                droovItems: action.payload
+            }
+         } else  return state;
 }

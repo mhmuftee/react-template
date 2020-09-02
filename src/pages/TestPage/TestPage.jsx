@@ -17,11 +17,9 @@ import Remove from "@material-ui/icons/Remove";
 import SaveAlt from "@material-ui/icons/SaveAlt";
 import Search from "@material-ui/icons/Search";
 import ViewColumn from "@material-ui/icons/ViewColumn";
-import axios from "axios";
 
-const API = "https://dev.api.droov.io/play/users";
-const token =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQSflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
+import { connect } from "react-redux";
+import { fetchDroovData } from "../../actions/postAction";
 
 const tableIcons = {
   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -60,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function TestPage(props) {
+function TestPage(props) {
   const classes = useStyles();
 
   const [state, setState] = useState({
@@ -82,25 +80,13 @@ export default function TestPage(props) {
     ],
   });
 
+  const fetch = props.fetchDroovData;
+  const datas = props.data;
+
   useEffect(() => {
-    let isSubscribed = true;
-    //console.log("useEffect called");
-    async function fetchTableData() {
-      const response = await axios.get(API, {
-        headers: { 
-          'Access-Control-Allow-Origin' : '*',
-          Authorization: "Bearer " + token
-        },
-      });
-      const newData = response.data;
-      if (isSubscribed)
-        setState(prevState => ({ ...prevState, data: newData }));
-    }
-
-    fetchTableData();
-
-    return () => (isSubscribed = false);
-  }, []);
+    fetch();
+    //setState(prevState => ({...prevState, data: datas}))
+  }, [fetch]);
 
   return (
     <div className={classes.root}>
@@ -111,7 +97,7 @@ export default function TestPage(props) {
           title="Editable Table"
           icons={tableIcons}
           columns={state.columns}
-          data={state.data}
+          data={datas}
           editable={{
             onRowAdd: (newData) =>
               new Promise((resolve) => {
@@ -154,3 +140,9 @@ export default function TestPage(props) {
     </div>
   );
 }
+
+const mapStateToProps = state => ({
+    data: state.posts.droovItems
+});
+
+export default connect(mapStateToProps, {fetchDroovData})(TestPage)

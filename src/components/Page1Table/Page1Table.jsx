@@ -99,6 +99,8 @@ function Page1Table(props) {
   const rows = props.rows;
   const fetch = props.fetchPosts;
 
+  console.log(rows);
+
   useEffect(() => {
     fetch();
   }, [fetch]);
